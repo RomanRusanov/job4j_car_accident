@@ -27,6 +27,7 @@ public class WebInit implements WebApplicationInitializer {
         AnnotationConfigWebApplicationContext ac = new AnnotationConfigWebApplicationContext();
         ac.register(WebConfig.class);
         ac.refresh();
+        initAppContext();
         DispatcherServlet servlet = new DispatcherServlet(ac);
         ServletRegistration.Dynamic registration = servletCxt.addServlet("app", servlet);
         registration.setLoadOnStartup(1);
@@ -34,8 +35,15 @@ public class WebInit implements WebApplicationInitializer {
         initialDataAccidentMem();
     }
 
+    public void initAppContext() {
+        AnnotationConfigApplicationContext context = AppContext.getInstance().getAppContext();
+        context.scan("ru.job4j.accident");
+        context.refresh();
+    }
+
     public void initialDataAccidentMem() {
-        AccidentMem accidentMem = AccidentMem.getInstance();
+        AnnotationConfigApplicationContext context = AppContext.getInstance().getAppContext();
+        AccidentMem accidentMem = context.getBean(AccidentMem.class);
         accidentMem.addToStore(Accident.of(1, "Иван", "Текст1", "Адрес1"));
         accidentMem.addToStore(Accident.of(2, "Семен", "Текст2", "Адрес2"));
         accidentMem.addToStore(Accident.of(3, "Владимир", "Текст3", "Адрес3"));

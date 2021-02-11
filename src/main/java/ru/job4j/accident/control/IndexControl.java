@@ -1,8 +1,11 @@
 package ru.job4j.accident.control;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import ru.job4j.accident.AppContext;
+import ru.job4j.accident.WebInit;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.repository.AccidentMem;
 
@@ -28,6 +31,8 @@ public class IndexControl {
     }
 
     public Collection<Accident> getAllAccidents() {
-        return AccidentMem.getInstance().getAllAccidents();
+        AnnotationConfigApplicationContext context = AppContext.getInstance().getAppContext();
+        AccidentMem storage = context.getBean(AccidentMem.class);
+        return storage.getAllAccidents();
     }
 }
