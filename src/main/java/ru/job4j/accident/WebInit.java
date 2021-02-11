@@ -1,9 +1,13 @@
 package ru.job4j.accident;
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import ru.job4j.accident.config.WebConfig;
+import ru.job4j.accident.model.Accident;
+import ru.job4j.accident.repository.AccidentMem;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 /**
@@ -27,5 +31,13 @@ public class WebInit implements WebApplicationInitializer {
         ServletRegistration.Dynamic registration = servletCxt.addServlet("app", servlet);
         registration.setLoadOnStartup(1);
         registration.addMapping("/");
+        initialDataAccidentMem();
+    }
+
+    public void initialDataAccidentMem() {
+        AccidentMem accidentMem = AccidentMem.getInstance();
+        accidentMem.addToStore(Accident.of(1, "Иван", "Текст1", "Адрес1"));
+        accidentMem.addToStore(Accident.of(2, "Семен", "Текст2", "Адрес2"));
+        accidentMem.addToStore(Accident.of(3, "Владимир", "Текст3", "Адрес3"));
     }
 }

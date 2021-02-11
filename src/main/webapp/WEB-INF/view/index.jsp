@@ -20,13 +20,19 @@
 <table class="table">
     <thead>
     <tr>
+        <th scope="col">id</th>
         <th scope="col">Имя</th>
+        <th scope="col">Текст</th>
+        <th scope="col">Адрес</th>
     </tr>
     </thead>
     <tbody>
-    <c:forEach items="${list}" var="name">
+    <c:forEach items="${all_accidents}" var="accident">
         <tr>
-            <th scope="row">${name}</th>
+            <th scope="row">${accident.id}</th>
+            <th scope="row">${accident.name}</th>
+            <th scope="row">${accident.text}</th>
+            <th scope="row">${accident.address}</th>
         </tr>
     </c:forEach>
 
