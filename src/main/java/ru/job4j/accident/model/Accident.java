@@ -1,5 +1,7 @@
 package ru.job4j.accident.model;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Objects;
 
 /**
@@ -8,6 +10,7 @@ import java.util.Objects;
  * @since 11.02.2021
  * email roman9628@gmail.com
  */
+@Component
 public class Accident {
 
     private int id;

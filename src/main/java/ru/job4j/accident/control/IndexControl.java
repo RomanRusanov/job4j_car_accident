@@ -24,6 +24,13 @@ import java.util.Collection;
  */
 @Controller
 public class IndexControl {
+
+    private AccidentMem accidentMem;
+
+    public IndexControl(AccidentMem accidentMem) {
+        this.accidentMem = accidentMem;
+    }
+
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("all_accidents", getAllAccidents());
@@ -31,8 +38,6 @@ public class IndexControl {
     }
 
     public Collection<Accident> getAllAccidents() {
-        AnnotationConfigApplicationContext context = AppContext.getInstance().getAppContext();
-        AccidentMem storage = context.getBean(AccidentMem.class);
-        return storage.getAllAccidents();
+        return accidentMem.getAllAccidents();
     }
 }

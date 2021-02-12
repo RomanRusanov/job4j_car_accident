@@ -3,11 +3,11 @@ package ru.job4j.accident;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
 import ru.job4j.accident.config.WebConfig;
-import ru.job4j.accident.model.Accident;
-import ru.job4j.accident.repository.AccidentMem;
 
+import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 /**
@@ -28,11 +28,16 @@ public class WebInit implements WebApplicationInitializer {
         ac.register(WebConfig.class);
         ac.refresh();
         initAppContext();
+        CharacterEncodingFilter filter = new CharacterEncodingFilter();
+        filter.setEncoding("UTF-8");
+        filter.setForceEncoding(true);
+        filter.setForceRequestEncoding(true);
+        FilterRegistration.Dynamic encoding = servletCxt.addFilter("encoding", filter);
+        encoding.addMappingForUrlPatterns(null, false, "/*");
         DispatcherServlet servlet = new DispatcherServlet(ac);
         ServletRegistration.Dynamic registration = servletCxt.addServlet("app", servlet);
         registration.setLoadOnStartup(1);
         registration.addMapping("/");
-        initialDataAccidentMem();
     }
 
     public void initAppContext() {
@@ -41,11 +46,4 @@ public class WebInit implements WebApplicationInitializer {
         context.refresh();
     }
 
-    public void initialDataAccidentMem() {
-        AnnotationConfigApplicationContext context = AppContext.getInstance().getAppContext();
-        AccidentMem accidentMem = context.getBean(AccidentMem.class);
-        accidentMem.addToStore(Accident.of(1, "Иван", "Текст1", "Адрес1"));
-        accidentMem.addToStore(Accident.of(2, "Семен", "Текст2", "Адрес2"));
-        accidentMem.addToStore(Accident.of(3, "Владимир", "Текст3", "Адрес3"));
-    }
 }
