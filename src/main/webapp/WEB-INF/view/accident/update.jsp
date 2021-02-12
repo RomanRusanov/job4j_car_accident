@@ -47,26 +47,26 @@
 </head>
 <body>
 <a href="/accident">Перейти на главную страницу</a>
-<form  class="editForm" action="<c:url value='/update'/>" method='POST'>
+<form  class="editForm" action="<c:url value='/save'/>" method='POST'>
     <table>
         <tr>
             <td colspan='2'><h5>Редактирование инцидента</h5>
         </tr>
         <tr>
             <td>id:</td>
-            <td><input type='number' name='id' title="id" id="id"></td>
+            <td><input type='number' name='id' title="id" id="id" value="${accident.id}"></td>
         </tr>
         <tr>
             <td>Имя:</td>
-            <td><input type='text' name='name' title="Имя" id="name"></td>
+            <td><input type='text' name='name' title="Имя" id="name" value="${accident.name}"></td>
         </tr>
         <tr>
             <td>Текст:</td>
-            <td><input type='text' name='text' title="Текст" id="text"></td>
+            <td><input type='text' name='text' title="Текст" id="text" value="${accident.text}"></td>
         </tr>
         <tr>
             <td>Адрес:</td>
-            <td><input type='text' name='address' title="Адрес" id="address"></td>
+            <td><input type='text' name='address' title="Адрес" id="address" value="${accident.address}"></td>
         </tr>
         <tr>
             <td colspan='2'><input name="submit" type="submit" value="Сохранить" style="margin-left: 33%" onclick="return validate()"/></td>
