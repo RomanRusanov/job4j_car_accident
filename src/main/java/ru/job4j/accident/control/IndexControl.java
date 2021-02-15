@@ -1,15 +1,9 @@
 package ru.job4j.accident.control;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import ru.job4j.accident.AppContext;
-import ru.job4j.accident.WebInit;
-import ru.job4j.accident.model.Accident;
-import ru.job4j.accident.repository.AccidentMem;
-
-import java.util.Collection;
+import ru.job4j.accident.service.AccidentService;
 
 /**
  * @author Roman Rusanov
@@ -25,19 +19,15 @@ import java.util.Collection;
 @Controller
 public class IndexControl {
 
-    private AccidentMem accidentMem;
+    private AccidentService service;
 
-    public IndexControl(AccidentMem accidentMem) {
-        this.accidentMem = accidentMem;
+    public IndexControl(AccidentService service) {
+        this.service = service;
     }
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("all_accidents", getAllAccidents());
+        model.addAttribute("all_accidents", service.getAllAccidents());
         return "index";
-    }
-
-    public Collection<Accident> getAllAccidents() {
-        return accidentMem.getAllAccidents();
     }
 }

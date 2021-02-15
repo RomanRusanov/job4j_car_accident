@@ -1,6 +1,5 @@
 package ru.job4j.accident.repository;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
@@ -17,7 +16,6 @@ import java.util.HashMap;
  */
 @Repository
 @Component
-@Scope("singleton")
 public class AccidentMem {
 
     private HashMap<Integer, Accident> accidents = new HashMap<>();
@@ -70,5 +68,9 @@ public class AccidentMem {
 
     public AccidentType getAccidentTypeById(int id) {
         return this.accidentType.get(id);
+    }
+
+    public Collection<AccidentType> getAllAccidentTypes() {
+        return this.accidentType.values();
     }
 }
