@@ -1,12 +1,16 @@
 package ru.job4j.accident.repository;
 
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
+import ru.job4j.accident.model.Rule;
 
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
 
 /**
  * @author Roman Rusanov
@@ -16,14 +20,18 @@ import java.util.HashMap;
  */
 @Repository
 @Component
+@Scope("singleton")
 public class AccidentMem {
 
-    private HashMap<Integer, Accident> accidents = new HashMap<>();
+    private Map<Integer, Accident> accidents = new HashMap<>();
 
-    private HashMap<Integer, AccidentType> accidentType = new HashMap<>();
+    private Map<Integer, AccidentType> accidentType = new HashMap<>();
+
+    private Map<Integer, Rule> rules = new HashMap<>();
 
     public AccidentMem() {
         this.fillAccidentTypes();
+        this.fillAccidentRules();
         this.addExamplesRowsToStore();
     }
 
@@ -33,25 +41,37 @@ public class AccidentMem {
         this.accidentType.put(3, AccidentType.of(3, "Машина и велосипед"));
     }
 
+    private void fillAccidentRules() {
+        this.rules.put(1, Rule.of(1, "Статья. 1"));
+        this.rules.put(2, Rule.of(2, "Статья. 2"));
+        this.rules.put(3, Rule.of(3, "Статья. 3"));
+    }
+
     private void addExamplesRowsToStore() {
         this.accidents.put(1, Accident.of(
                 1,
                 "Иван",
                 "Текст1",
                 "Адрес1",
-                this.accidentType.get(1)));
+                this.accidentType.get(1),
+                new HashSet<>(rules.values()))
+        );
         this.accidents.put(2, Accident.of(
                 2,
                 "Семен",
                 "Текст2",
                 "Адрес2",
-                this.accidentType.get(2)));
+                this.accidentType.get(2),
+                new HashSet<>(rules.values()))
+        );
         this.accidents.put(3, Accident.of(
                 3,
                 "Владимир",
                 "Текст3",
                 "Адрес3",
-                this.accidentType.get(3)));
+                this.accidentType.get(3),
+                new HashSet<>(rules.values()))
+        );
     }
 
     public void addToStore(Accident accident) {
@@ -72,5 +92,13 @@ public class AccidentMem {
 
     public Collection<AccidentType> getAllAccidentTypes() {
         return this.accidentType.values();
+    }
+
+    public Rule getRuleById(int id) {
+        return rules.get(id);
+    }
+
+    public Collection<Rule> getAllRules() {
+        return this.rules.values();
     }
 }

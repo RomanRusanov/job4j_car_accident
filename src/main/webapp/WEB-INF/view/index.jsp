@@ -36,6 +36,7 @@
         <th scope="col">Текст</th>
         <th scope="col">Адрес</th>
         <th scope="col">Тип</th>
+        <th scope="col">Статьи</th>
     </tr>
     </thead>
     <tbody>
@@ -51,6 +52,11 @@
             <td scope="row">${accident.text}</td>
             <td scope="row">${accident.address}</td>
             <td scope="row">${accident.type.name}</td>
+            <td scope="row">
+                <c:forEach items="${accident.rules}" var="rule">
+                    <div>${rule.name}</div>
+                </c:forEach>
+            </td>
         </tr>
     </c:forEach>
 

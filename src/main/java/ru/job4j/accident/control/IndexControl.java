@@ -30,4 +30,5 @@ public class IndexControl {
         model.addAttribute("all_accidents", service.getAllAccidents());
         return "index";
     }
+
 }

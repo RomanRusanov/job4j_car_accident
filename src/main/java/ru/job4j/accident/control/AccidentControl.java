@@ -1,9 +1,5 @@
 package ru.job4j.accident.control;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.service.AccidentService;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author Roman Rusanov
@@ -22,8 +20,6 @@ import ru.job4j.accident.service.AccidentService;
 @Controller
 public class AccidentControl {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AccidentControl.class.getName());
-    private static final Marker MARKER = MarkerFactory.getMarker("Controller");
     private AccidentService service;
 
     public AccidentControl(AccidentService service) {
@@ -36,9 +32,13 @@ public class AccidentControl {
     }
 
     @PostMapping("/save")
-    public String save(@ModelAttribute Accident accident, @RequestParam("type.id") int typeId) {
-        this.service.saveAccident(accident, typeId);
-        LOG.info(MARKER, "AccidentControl save accident {}", accident);
+    public String save(
+            @ModelAttribute Accident accident,
+            @RequestParam("type.id") int typeId,
+            HttpServletRequest req)
+    {
+        String[] allRulesIdsForAccident = req.getParameterValues("rIds");
+        this.service.saveAccident(accident, typeId, allRulesIdsForAccident);
         return "redirect:/";
     }
 
@@ -51,5 +51,6 @@ public class AccidentControl {
     @ModelAttribute
     public void addAttributeForCreateAndUpdateRequest(Model model) {
         model.addAttribute("types", service.getAllAccidentTypes());
+        model.addAttribute("rules", service.getAllRules());
     }
 }
