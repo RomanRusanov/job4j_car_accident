@@ -1,6 +1,5 @@
 package ru.job4j.accident.repository;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
@@ -20,8 +19,7 @@ import java.util.Map;
  */
 @Repository
 @Component
-@Scope("singleton")
-public class AccidentMem {
+public class AccidentMem implements DAO {
 
     private Map<Integer, Accident> accidents = new HashMap<>();
 
@@ -74,8 +72,9 @@ public class AccidentMem {
         );
     }
 
-    public void addToStore(Accident accident) {
+    public Accident addToStore(Accident accident) {
         this.accidents.put(accident.getId(), accident);
+        return accident;
     }
 
     public Collection<Accident> getAllAccidents() {

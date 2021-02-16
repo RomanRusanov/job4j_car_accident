@@ -4,11 +4,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.Marker;
 import org.slf4j.MarkerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
-import ru.job4j.accident.repository.AccidentMem;
+import ru.job4j.accident.repository.DAO;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -24,23 +25,24 @@ import java.util.Set;
 @Service
 public class AccidentService {
 
-    private final AccidentMem storage;
+    private final DAO storage;
     private static final Logger LOG = LoggerFactory.getLogger(AccidentService.class.getName());
     private static final Marker MARKER = MarkerFactory.getMarker("Service");
 
-    public AccidentService(AccidentMem storage) {
+    public AccidentService(@Qualifier("accidentJdbcTemplate") DAO storage) {
         this.storage = storage;
     }
 
     public void saveAccident(Accident accident, int typeId, String[] ids) {
-        Set<Rule> rules = this.idsConvertToRules(ids);
+        Set<Rule> allRulesAccident = this.idsConvertToRules(ids);
         Accident accidentToStore = Accident.of(
                 accident.getId(),
                 accident.getName(),
                 accident.getText(),
                 accident.getAddress(),
                 this.storage.getAccidentTypeById(typeId),
-                rules);
+                allRulesAccident
+        );
         this.storage.addToStore(accidentToStore);
         LOG.info(MARKER, "AccidentControl save accident {}", accidentToStore);
     }
