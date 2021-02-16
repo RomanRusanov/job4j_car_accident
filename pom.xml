@@ -16,7 +16,6 @@
     <spring.version>5.1.2.RELEASE</spring.version>
     <slf4j.version>1.6.1</slf4j.version>
   </properties>
-
   <dependencies>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -73,4 +72,16 @@
       <version>${spring.version}</version>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.1</version>
+        <configuration>
+          <failOnMissingWebXml>false</failOnMissingWebXml>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
