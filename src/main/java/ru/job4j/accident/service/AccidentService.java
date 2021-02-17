@@ -29,7 +29,7 @@ public class AccidentService {
     private static final Logger LOG = LoggerFactory.getLogger(AccidentService.class.getName());
     private static final Marker MARKER = MarkerFactory.getMarker("Service");
 
-    public AccidentService(@Qualifier("accidentJdbcTemplate") DAO storage) {
+    public AccidentService(@Qualifier("accidentHibernate") DAO storage) {
         this.storage = storage;
     }
 

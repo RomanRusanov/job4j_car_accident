@@ -53,7 +53,7 @@
         </tr>
         <tr>
             <td>id:</td>
-            <td><input type='number' name='id' title="id" id="id" value="${accident.id}" disabled></td>
+            <td><input type='number' name='id' title="id" id="id" value="${accident.id}" readonly></td>
         </tr>
         <tr>
             <td>Имя:</td>

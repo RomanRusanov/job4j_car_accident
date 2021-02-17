@@ -1,7 +1,16 @@
 package ru.job4j.accident.model;
 
-import org.springframework.stereotype.Component;
-
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
@@ -11,15 +20,25 @@ import java.util.Set;
  * @since 11.02.2021
  * email roman9628@gmail.com
  */
-@Component
+@Entity(name="accident")
 public class Accident {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
     private String text;
     private String address;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn (name="accident_type_id")
     private AccidentType type;
-    private Set<Rule> rules;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "accident_rules",
+            joinColumns = { @JoinColumn(name = "accident_id") },
+            inverseJoinColumns = { @JoinColumn(name = "rules_id") }
+    )
+    private Set<Rule> rules = new HashSet<>();
 
     public static Accident of(int id, String name, String text, String address, AccidentType type, Set<Rule> rules) {
         Accident accident = new Accident();

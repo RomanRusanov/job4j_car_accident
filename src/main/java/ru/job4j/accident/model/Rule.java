@@ -1,7 +1,9 @@
 package ru.job4j.accident.model;
 
-import org.springframework.stereotype.Component;
-
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Objects;
 
 /**
@@ -10,8 +12,10 @@ import java.util.Objects;
  * @since 15.02.2021
  * email roman9628@gmail.com
  */
-@Component
+@Entity(name = "rules")
 public class Rule {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
 
