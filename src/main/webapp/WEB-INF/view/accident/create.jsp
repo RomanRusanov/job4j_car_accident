@@ -82,7 +82,7 @@
             <td>
                 <select name="rIds" multiple>
                     <c:forEach var="rule" items="${rules}" >
-                        <option value="${rule.id}">${rule.name}</option>
+                        <option selected value="${rule.id}">${rule.name}</option>
                     </c:forEach>
                 </select>
             </td>
