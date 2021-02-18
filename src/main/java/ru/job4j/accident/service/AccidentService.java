@@ -29,22 +29,16 @@ public class AccidentService {
     private static final Logger LOG = LoggerFactory.getLogger(AccidentService.class.getName());
     private static final Marker MARKER = MarkerFactory.getMarker("Service");
 
-    public AccidentService(@Qualifier("accidentHibernate") DAO storage) {
+    public AccidentService(@Qualifier("accidentSpringData") DAO storage) {
         this.storage = storage;
     }
 
     public void saveAccident(Accident accident, int typeId, String[] ids) {
         Set<Rule> allRulesAccident = this.idsConvertToRules(ids);
-        Accident accidentToStore = Accident.of(
-                accident.getId(),
-                accident.getName(),
-                accident.getText(),
-                accident.getAddress(),
-                this.storage.getAccidentTypeById(typeId),
-                allRulesAccident
-        );
-        this.storage.addToStore(accidentToStore);
-        LOG.info(MARKER, "AccidentControl save accident {}", accidentToStore);
+        accident.setType(this.storage.getAccidentTypeById(typeId));
+        accident.setRules(allRulesAccident);
+        this.storage.addToStore(accident);
+        LOG.info(MARKER, "AccidentControl save accident {}", accident);
     }
 
     private Set<Rule> idsConvertToRules(String[] ids) {

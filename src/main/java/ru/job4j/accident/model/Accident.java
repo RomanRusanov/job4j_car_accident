@@ -1,6 +1,5 @@
 package ru.job4j.accident.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -29,10 +28,10 @@ public class Accident {
     private String name;
     private String text;
     private String address;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn (name="accident_type_id")
     private AccidentType type;
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "accident_rules",
             joinColumns = { @JoinColumn(name = "accident_id") },
