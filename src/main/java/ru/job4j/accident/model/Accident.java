@@ -1,5 +1,8 @@
 package ru.job4j.accident.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -28,10 +31,12 @@ public class Accident {
     private String name;
     private String text;
     private String address;
-    @ManyToOne(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn (name="accident_type_id")
     private AccidentType type;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @Fetch(FetchMode.JOIN)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "accident_rules",
             joinColumns = { @JoinColumn(name = "accident_id") },
