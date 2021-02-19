@@ -5,7 +5,6 @@ import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.DispatcherServlet;
-import ru.job4j.accident.config.DataConfig;
 import ru.job4j.accident.config.WebConfig;
 
 import javax.servlet.FilterRegistration;
@@ -26,9 +25,9 @@ public class WebInit implements WebApplicationInitializer {
 
     public void onStartup(ServletContext servletCxt) {
         AnnotationConfigWebApplicationContext ac = new AnnotationConfigWebApplicationContext();
-        ac.register(WebConfig.class, DataConfig.class, SecurityConfig.class);
+        ac.register(WebConfig.class, SecurityConfig.class);
         ac.refresh();
-        initAppContext();
+//        initAppContext();
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
         filter.setEncoding("UTF-8");
         filter.setForceEncoding(true);
@@ -41,6 +40,12 @@ public class WebInit implements WebApplicationInitializer {
         registration.addMapping("/");
     }
 
+    /**
+     * This method use only in exercise where use AccidentMem repository.
+     * If use with DB repository may add double initialization data source context.
+     * (Spring Security make double row in auto_crash.public.users,
+     * auto_crash.public.authorities tables)
+     */
     public void initAppContext() {
         AnnotationConfigApplicationContext context = AppContext.getInstance().getAppContext();
         context.scan("ru.job4j.accident");
