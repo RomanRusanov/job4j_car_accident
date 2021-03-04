@@ -18,7 +18,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         .table,
-        .buttonAddAccident
+        .buttonAddAccident,
+        .loginUserName
         {
             width: 55%;
             margin-left: 20%;
@@ -26,6 +27,9 @@
     </style>
 </head>
 <body>
+<div class="loginUserName">
+    Login as : ${user.username}
+</div>
 <a href="<c:url value='/create'/>" class="buttonAddAccident">Добавить инцидент</a>
 <table class="table">
     <thead>

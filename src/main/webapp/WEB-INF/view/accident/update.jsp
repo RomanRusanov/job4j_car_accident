@@ -25,11 +25,10 @@
     </style>
     <script>
         function validate() {
-            var id = checkUserInput($('#id'));
             var name = checkUserInput($('#name'));
             var text = checkUserInput($('#text'));
             var address = checkUserInput($('#address'));
-            if (id !== "" && name !== "" && text !== "" && address !== "") {
+            if (name !== "" && text !== "" && address !== "") {
                 return true;
             }
             return false;
@@ -54,7 +53,7 @@
         </tr>
         <tr>
             <td>id:</td>
-            <td><input type='number' name='id' title="id" id="id" value="${accident.id}"></td>
+            <td><input type='number' name='id' title="id" id="id" value="${accident.id}" readonly></td>
         </tr>
         <tr>
             <td>Имя:</td>
